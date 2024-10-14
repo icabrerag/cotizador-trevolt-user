@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-  backend:
-    build:
-      context: ./backend
-    container_name: cotizador-backend
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=mysql://user:user_password@db:3306/cotizador
-
   frontend:
     build:
       context: ./frontend
@@ -19,7 +8,6 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - backend
       - db
     environment:
       - NEXT_PUBLIC_DATABASE_URL=mysql://user:user_password@db:3306/cotizador
