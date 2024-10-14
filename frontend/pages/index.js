@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { pdf } from '@react-pdf/renderer'; // Importa pdf para generar el archivo
 import CotizacionPDF from '../components/pdf';
+import RegionPriceChart from '../components/RegionPriceChart';
 
 const regions = [
   'Arica y Parinacota',
@@ -173,43 +174,48 @@ export default function Home() {
           </div>
         </div>
       );
+    } else if (step === 1) {
+      return (
+        <div>
+          <h2 className="text-2xl mb-4">¿En cuál región se ubica el proyecto?</h2>
+          {/* Aquí está el gráfico */}
+          <RegionPriceChart data={formData.responses} />
+          <select
+            name="¿En cuál región se ubica el proyecto?"
+            onChange={handleChange}
+            className="mt-4 block w-full px-3 py-2 border border-gray-600 bg-dark text-light rounded-md"
+          >
+            <option value="" disabled selected>
+              Selecciona una región
+            </option>
+            {regions.map((region) => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
+          </select>
+        </div>
+      );
     } else if (step <= questions.length) {
       const currentQuestion = questions[step - 1];
       return (
         <div>
           <h2 className="text-2xl mb-4">{currentQuestion.question}</h2>
           {currentQuestion.type === 'select' ? (
-            currentQuestion.question === '¿Su instalación está conectada a la red?' ? (
-              <select
-                name={currentQuestion.question}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-600 bg-dark text-light rounded-md"
-              >
-                <option value="" disabled selected>
-                  Selecciona una opción
+            <select
+              name={currentQuestion.question}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 bg-dark text-light rounded-md"
+            >
+              <option value="" disabled selected>
+                Selecciona una opción
+              </option>
+              {currentQuestion.options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
                 </option>
-                {currentQuestion.options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <select
-                name={currentQuestion.question}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-600 bg-dark text-light rounded-md"
-              >
-                <option value="" disabled selected>
-                  Selecciona una región
-                </option>
-                {regions.map((region) => (
-                  <option key={region} value={region}>
-                    {region}
-                  </option>
-                ))}
-              </select>
-            )
+              ))}
+            </select>
           ) : (
             <input
               type={currentQuestion.type}
@@ -234,7 +240,7 @@ export default function Home() {
       );
     }
   };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-dark text-light">
       <div className="bg-dark border border-gray-600 p-8 rounded-lg shadow-lg max-w-md w-full">
@@ -242,12 +248,12 @@ export default function Home() {
           <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
             {renderQuestion()}
           </div>
+          
+          {/* Solo muestra el botón "Siguiente" si no es la última pregunta */}
           {step <= questions.length && (
-            <div className="mt-6">
-              <button type="submit" className="w-full py-2 px-4 bg-green text-white font-semibold rounded-md">
-                Siguiente
-              </button>
-            </div>
+            <button type="button" onClick={handleNext} className="w-full py-2 px-4 bg-green text-white font-semibold rounded-md mt-4">
+              {step === questions.length ? 'Finalizar' : 'Siguiente'}
+            </button>
           )}
         </form>
       </div>

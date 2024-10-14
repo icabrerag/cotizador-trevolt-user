@@ -56,6 +56,15 @@ const formatCurrency = (amount) => {
   }).format(amount);
 };
 
+// Obtener la fecha actual
+const today = new Date();
+const fechaCotizacion = today.toLocaleDateString(); // Formato local de la fecha
+
+// Calcular la fecha de vencimiento (10 días después)
+const vencimiento = new Date(today);
+vencimiento.setDate(vencimiento.getDate() + 10);
+const fechaVencimiento = vencimiento.toLocaleDateString(); // Formato local de la fecha
+
 const CotizacionPDF = ({ formData, producto }) => (
   <Document>
     <Page size="A4" style={styles.page}>
@@ -74,6 +83,8 @@ const CotizacionPDF = ({ formData, producto }) => (
         <Text style={styles.text}>
           <Text style={styles.boldText}>Correo Electrónico:</Text> {formData.email || 'No especificado'}
         </Text>
+        <Text style={styles.boldText}>Fecha: {fechaCotizacion}</Text>
+        <Text style={styles.boldText}>Fecha de vencimiento: {fechaVencimiento}</Text>
       </View>
 
       {/* Sección de datos del proyecto */}

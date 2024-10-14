@@ -11,3 +11,10 @@
   .overlay {
     background-color: rgba(0, 0, 0, 0.7);
   }
+
+  .chart-container {
+    border: 2px solid #4caf50; /* Color del borde */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px; /* Espacio alrededor del gráfico */
+    background-color: #1e1e1e; /* Fondo oscuro */
+  }
