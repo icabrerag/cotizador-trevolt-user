@@ -8,5 +8,8 @@
     "chart.js": "^4.4.4",
     "mysql2": "^3.11.3",
     "react-chartjs-2": "^5.2.0"
+  },
+  "scripts": {
+    "start": "next start"
   }
 }
